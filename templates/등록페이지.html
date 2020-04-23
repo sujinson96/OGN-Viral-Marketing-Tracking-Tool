@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .traking-community-list a {
+
+            margin-right: 1em;
+
+        }
+
+        .btn-box {
+
+            display: flex;
+
+            justify-content: center;
+
+        }
+
+        .btn-box>button {
+
+            margin-right: 1em;
+
+        }
+    </style>
+</head>
+
+
+
+<body>
+
+
+
+    <section>
+
+
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
+                aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="/programlist">프로그램 / 키워드 리스트</a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="/community_viral">커뮤니티 바이럴 게시글 조회</a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+
+
+    </section>
+
+
+
+    <div class="container">
+
+        <div class="row">
+
+            <h3 class="mt-5">트래킹 가능 커뮤니티</h3>
+
+            <div class="row col-12 traking-community-list">
+
+                <a href="https://www.dcinside.com/" class="badge badge-primary">디씨인사이드</a>
+
+                <a href="https://www.fmkorea.com/" class="badge badge-primary">에펨코리아</a>
+
+                <a href="http://www.fomos.kr/" class="badge badge-primary">fomos</a>
+
+                <a href="https://pgr21.com/" class="badge badge-primary">pgr21</a>
+
+                <a href="https://bbs.ruliweb.com/" class="badge badge-primary">루리웹</a>
+
+                <a href="www.dogdrip.net" class="badge badge-primary">dogdrip</a>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row">
+
+            <h3 class="mt-5">디지털 컨텐츠 및 관련 키워드 리스트</h3>
+
+            <div class="row col-12">
+
+                <table class="table" id="program-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>프로그램명</th>
+
+                            <th>키워드</th>
+
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>소울사이버대학</td>
+
+                            <td>울프, 이재완, 롤, 인강, 44층, 지하던전</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>소울사이버대학</td>
+
+                            <td>울프, 이재완, 롤, 인강, 44층, 지하던전</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>소울사이버대학</td>
+
+                            <td>울프, 이재완, 롤, 인강, 44층, 지하던전</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="row col-12 btn-box">
+
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#add-program">신규 프로그램 추가하기</button>
+
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#add-keyword">키워드 추가하기</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="modal fade" id="add-program" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">신규 프로그램 추가하기</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="container-fluid">
+
+                        <div class="form-group">
+
+                            <label for="program-name">프로그램명</label>
+
+                            <input type="text" class="form-control" id="program-name">
+
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="program-keyword">키워드</label>
+
+                            <input type="text" class="form-control" id="program-keyword"
+                                aria-describedby="keyword-help">
+
+                            <small id="keyword-help" class="form-text text-muted">키워드는 콤마(,)를 구분자로 입력해 주세요.</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+
+                    <button type="button" class="btn btn-primary" onclick="saveProgram()">저장</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="modal fade" id="add-keyword" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">키워드 추가하기</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="container-fluid">
+
+                        <div class="form-group">
+
+                            <label for="program-name">프로그램명</label>
+
+                            <select class="form-control" id="keyword-program-name"></select>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="program-keyword">키워드</label>
+
+                            <input type="text" class="form-control" id="keyword" aria-describedby="keyword-help">
+
+                            <small id="keyword-help" class="form-text text-muted">키워드는 콤마(,)를 구분자로 입력해 주세요.</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+
+                    <button type="button" class="btn btn-primary" onclick="saveKeyword()">저장</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            getList();
+            getdropmenu();
+        });
+
+
+
+        // 목록 호출
+
+        function getList() {
+
+            $.ajax({
+                type: "GET",
+                url: "/program_table",
+                data: {},
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        let programinformation = response['program_title'];
+                        $('#program-table').html('');
+                        for (let i = 0; i < programinformation.length; i++) {
+                            let information = programinformation[i];
+                            let table_title = information['programs'];
+                            let table_keyword = information['keywords'];
+                            make_table(table_title, table_keyword);
+                        }
+                    }
+                }
+            });
+            console.log('목록 호출!!');
+        }
+
+
+        function make_table(table_title, table_keyword) {
+
+      let table =  `<tbody>
+
+    <tr>
+
+    <td>${table_title}</td>
+
+    <td>${table_keyword}</td>
+
+    </tr>
+
+    </tbody>`;
+
+      $('#program-table').append(table);
+    
+        }
+
+
+
+        // 프로그램 저장
+
+        function saveProgram() {
+            let programtitle = $('#program-name').val();
+            let programkeyword1 = $('#program-keyword').val();
+
+            $.ajax({
+                type: 'POST', // 타입을 작성합니다.
+                url: '/programlist', // url을 작성합니다.
+                data: {
+                    programtitle_give: programtitle,
+                    programkeyword_give: programkeyword1
+                }, // data를 작성합니다.
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('프로그램이 성공적으로 등록되었습니다.');
+                        window.location.reload();
+                    }
+                }
+            });
+            
+        }
+
+        function getdropmenu() {
+            $.ajax({
+                type: "GET",
+                url: "/dropmenu",
+                data: {},
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        let program_dropmenu = response['program_title'];
+                        $('#keyword-program-name').html('');
+                        for (let i = 0; i < program_dropmenu.length; i++) {
+                            let program_dropmenu2 = program_dropmenu[i];
+                            let program_dropmenutitle = program_dropmenu2['programs']
+
+                            make_dropmenulist(program_dropmenutitle);
+                        }
+                    }
+                }
+            })
+        };
+
+        function make_dropmenulist(program_dropmenutitle) {
+
+            let html = `<option value="${program_dropmenutitle}">${program_dropmenutitle}</option>`;
+
+            $('#keyword-program-name').append(html);
+        }
+
+
+        // 키워드 저장
+
+        function saveKeyword() {
+            let title_dropmenu = $('#keyword-program-name').val();
+            let keyword_dropmenu = $('#keyword').val();
+
+            $.ajax({
+                type: 'POST', // 타입을 작성합니다.
+                url: '/dropmenu', // url을 작성합니다.
+                data: {
+                    dropmenutitle_give: title_dropmenu,
+                    dropmenukeyword_give: keyword_dropmenu
+                }, // data를 작성합니다.
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('키워드가 성공적으로 추가되었습니다.');
+                        window.location.reload();
+                    }
+                }
+            });
+            
+        }
+
+    </script>
+
+</body>
+
+
+
+</html>
