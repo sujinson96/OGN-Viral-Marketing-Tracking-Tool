@@ -229,7 +229,7 @@
     </div>
 
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -251,6 +251,12 @@
     <script>
 
 
+        
+$(document).ready(function () {
+    getdropmenu();
+getList();
+
+});
 
         // 목록 호출
 
@@ -258,7 +264,35 @@
 
             console.log('목록 호출!!');
 
+        };
+        function getdropmenu() {
+            $.ajax({
+                type: "GET",
+                url: "/viral_menu",
+                data: {},
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        let program_dropmenu = response['program_title'];
+                        $('#program-name').html('');
+                        for (let i = 0; i < program_dropmenu.length; i++) {
+                            let program_dropmenu2 = program_dropmenu[i];
+                            let program_dropmenutitle = program_dropmenu2['programs']
+
+                            make_dropmenulist(program_dropmenutitle);
+                        }
+                    }
+                }
+            })
+        };
+
+        function make_dropmenulist(program_dropmenutitle) {
+
+            let html = `<option value="${program_dropmenutitle}">${program_dropmenutitle}</option>`;
+
+            $('#program-name').append(html);
         }
+
 
 
 

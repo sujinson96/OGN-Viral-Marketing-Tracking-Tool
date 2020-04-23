@@ -71,7 +71,7 @@ def dcinside(keyword):
             'property': True
         }
 
-        db.programlist.insert_one(community_data)
+        db.community_data.insert_one(community_data)
 
 def fmkorea(keyword):
     url = "https://www.fmkorea.com/?act=IS&is_keyword=" + keyword
@@ -95,7 +95,7 @@ def fmkorea(keyword):
             'property': True
         }
 
-        db.programlist.insert_one(community_data)
+        db.community_data.insert_one(community_data)
 
 def fomos(keyword):
     url = "http://www.fomos.kr/search/list?menu=talk&fword=" + keyword
@@ -120,7 +120,7 @@ def fomos(keyword):
             'property': True
         }
 
-        db.programlist.insert_one(community_data)
+        db.community_data.insert_one(community_data)
 
 def pgr(keyword):
 
@@ -146,7 +146,7 @@ def pgr(keyword):
             'property': True
         }
 
-        db.programlist.insert_one(community_data)
+        db.community_data.insert_one(community_data)
 
         idx += 1
 
@@ -175,7 +175,7 @@ def ruliweb(keyword):
                 'property': True
             }
 
-            db.programlist.insert_one(community_data)
+            db.community_data.insert_one(community_data)
 
         idx += 1
 
@@ -201,7 +201,7 @@ def dogdrip(keyword):
             'url': dogdrip_post_url,
             'property': True
         }
-        db.programlist.insert_one(community_data)
+        db.community_data.insert_one(community_data)
 
         idx += 1
 
