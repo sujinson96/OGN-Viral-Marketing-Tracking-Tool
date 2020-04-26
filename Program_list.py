@@ -62,6 +62,22 @@ def community_viral_menu():
     result = list(db.programlist.find({}, {'_id' : 0}))
     return jsonify({'result':'success', 'program_title': result})
 
+@app.route('/keyword_table', methods=['GET'])
+def keyword_table():
+
+    result = list(db.community_data.find({}, {'_id' : 0}))
+    return jsonify({'result':'success', 'community_data': result})
+
+@app.route('/delete', methods=['POST'])
+def posttitle():
+   # 1. 클라이언트로부터 데이터를 받기
+   posttitle_receive = request.form['posttitle_give']
+
+   db.programlist.update_one({'programs': posttitle_receive}, {'$set': {'property' : False}})
+
+   return jsonify({'result': 'success'})
+
+
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5001, debug=True)
 

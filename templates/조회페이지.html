@@ -15,11 +15,9 @@
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <style>
-
         .btn-box {
 
             display: flex;
@@ -35,7 +33,6 @@
             margin-top: 3em;
 
         }
-
     </style>
 
 </head>
@@ -53,7 +50,6 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
-
                 aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
 
                 <span class="navbar-toggler-icon"></span>
@@ -104,19 +100,18 @@
 
                     <div class="form-group row">
 
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">프로그램명</label>
 
                         <div class="col-sm-10">
 
                             <select id="program-name" class="form-control">
 
-                                <option value="1">소울 사이버 대학</option>
+                                <option value="1">프로그램명</option>
 
-                                <option value="2">검생 상담소</option>
+                                <option value="2">프로그램명</option>
 
-                                <option value="3">소울로드</option>
+                                <option value="3">프로그램명</option>
 
-                                <option value="4">BWS</option>
 
                             </select>
 
@@ -126,7 +121,7 @@
 
                     <div class="form-group row">
 
-                        <label for="period" class="col-sm-2 col-form-label">Password</label>
+                        <label for="period" class="col-sm-2 col-form-label">기간</label>
 
                         <div class="col-sm-10">
 
@@ -136,17 +131,6 @@
 
                     </div>
 
-                    <div class="form-group row">
-
-                        <label for="keyword" class="col-sm-2 col-form-label">Password</label>
-
-                        <div class="col-sm-10">
-
-                            <input type="password" class="form-control" id="keyword" disabled>
-
-                        </div>
-
-                    </div>
 
                 </form>
 
@@ -171,51 +155,27 @@
                 <table class="table" id="program-list">
 
                     <thead>
-
                         <tr>
-
                             <th>프로그램명</th>
-
                             <th>커뮤니티명</th>
-
                             <th>날짜</th>
-
                             <th>제목</th>
-
                             <th>조회수</th>
-
+                            <th>키워드</th>
                             <th>삭제하기</th>
-
                         </tr>
-
                     </thead>
 
                     <tbody>
-
                         <tr>
-
                             <td>소울 사이버 대학</td>
-
                             <td>디씨인사이드</td>
-
                             <td>2020-04-13</td>
-
-                            <td>
-
-                                <a href="#">제목입니다!!</a>
-
-                            </td>
-
+                            <td><a href="#">제목입니다!!</a></td>
                             <td>33</td>
-
-                            <td>
-
-                                <button class="btn btn-danger" onclick="deleteProgram('id')">삭제</button>
-
-                            </td>
-
+                            <td>키워드</td>
+                            <td> <button class="btn btn-danger" onclick="deleteProgram(id)">삭제</button> </td>
                         </tr>
-
                     </tbody>
 
                 </table>
@@ -230,41 +190,81 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-
-        crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-
         crossorigin="anonymous"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-
         crossorigin="anonymous"></script>
 
     <script>
 
 
-        
-$(document).ready(function () {
-    getdropmenu();
-getList();
 
-});
+        $(document).ready(function () {
+            getList();
+            getdropmenu();
+        });
 
         // 목록 호출
 
         function getList() {
+            let programtitle = $('#program-name').val();
 
-            console.log('목록 호출!!');
+            $.ajax({
+                type: "GET",
+                url: "/keyword_table",
+                data: {},
+                success: function (response) {
+                    console.log(response);
+                    if (response['result'] == 'success') {
+                        let community_data = response['community_data'];
+                        $('#program-list').html('');
+                        for (let i = 0; i < community_data.length; i++) {
+                            let information = community_data[i];
+                            let program = information['program'];
+                            let title = information['title'];
+                            let site = information['site'];
+                            let date = information ['date'];
+                            let reach = information ['reach'];
+                            let url = information['url']
+                            let keyword = information ['keyword'];
 
+                            if (programtitle = program)
+                                {make_table(site, program, date, url, title, reach, keyword);}
+                        }
+                    }
+                }
+            });
         };
+
+        function make_table(site, program, date, url, title, reach, keyword) {
+
+            let table = `
+                        <tr>
+                            <td>${program}</td>
+                            <td>${keyword}</td>
+                            <td>${site}</td>
+                            <td>${date}</td>
+                            <td> <a href=${url}> ${title}</a> </td>
+                            <td>${reach}</td>
+                            <td>
+                                <button class="btn btn-danger" onclick="deleteProgram('id')">삭제</button>
+
+                            </td>
+
+                        </tr>`;
+
+            
+            $('#program-list').append(table);
+
+
+
+
+        }
+
         function getdropmenu() {
             $.ajax({
                 type: "GET",
@@ -298,7 +298,21 @@ getList();
 
         function deleteProgram(id) {
 
-            console.log('삭제 호출!!');
+            function deleteprogram() {
+            $.ajax({
+                type: 'POST', // 타입을 작성합니다.
+                url: '/delete', // url을 작성합니다.
+                data: {
+                    posttitle_give: `${title}`
+                }, // data를 작성합니다.
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('해당 게시글 숨김 완료!');
+                        window.location.reload();
+                    }
+                }
+            });
+        };
 
         }
 

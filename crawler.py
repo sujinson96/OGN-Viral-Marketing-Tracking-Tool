@@ -37,19 +37,21 @@ db = client.dbsparta
 def find_keyword():
     result = list(db.programlist.find({}, {'_id' : 0}))
 
-    for program in result:
-        keywords = program['keywords'].split(',')
+    for programs in result:
+        program = programs['programs']
+        keywords = programs['keywords'].split(',')
 
         for keyword in keywords:
-              dcinside(keyword)
-              fmkorea(keyword)
-              fomos(keyword)
-              pgr(keyword)
-              ruliweb(keyword)
-              dogdrip(keyword)
+              dcinside(program, keyword)
+              fmkorea(program, keyword)
+              fomos(program, keyword)
+              pgr(program, keyword)
+              ruliweb(program, keyword)
+              dogdrip(program, keyword)
 
 
-def dcinside(keyword):
+
+def dcinside(program, keyword):
     url = "https://search.dcinside.com/combine/q/" + keyword
     data = getData(url)
     select_list = data.select('ul.sch_result_list > li > a')
@@ -64,16 +66,18 @@ def dcinside(keyword):
 
         community_data = {
             'site': "디씨인사이드",
+            'program' : program,
             'title': dc_post_name,
             'date': dc_post_date,
             'reach': dc_post_reach,
             'url': dc_post_url,
+            'keyword' : keyword,
             'property': True
         }
 
         db.community_data.insert_one(community_data)
 
-def fmkorea(keyword):
+def fmkorea(program, keyword):
     url = "https://www.fmkorea.com/?act=IS&is_keyword=" + keyword
     data = getData(url)
     select_list = data.select('ul.searchResult > li > dl > dt > a')
@@ -88,24 +92,27 @@ def fmkorea(keyword):
 
         community_data = {
             'site': "에펨코리아",
+            'program': program,
             'title': fmkorea_post_name,
             'date': fmkorea_post_date,
             'reach': fmkorea_post_reach,
             'url': fmkorea_post_url,
+            'keyword': keyword,
             'property': True
         }
 
-        db.community_data.insert_one(community_data)
+        if fmkorea_post_name is not None:
+            db.community_data.insert_one(community_data)
 
-def fomos(keyword):
+def fomos(program, keyword):
     url = "http://www.fomos.kr/search/list?menu=talk&fword=" + keyword
     data = getData(url)
-    select_list = data.select('div.result_area > div > ul > li:nth-child(1) > div.info > p.tit > a')
+    select_list = data.select('div.result_area > div > ul > li > div.info > p.tit > a')
 
     for selected in select_list:
         soup = getData("http://www.fomos.kr/"+selected['href'])
-        fomos_post_name = soup.select_one('div.board_area.common_view > h3').text
-        fomos_post_date = soup.select_one('div.board_area.common_view > p.sub_tit > span:nth-child(2)').text
+        fomos_post_name = soup.select_one('meta[property="og:title"]')['content']
+        fomos_post_date = soup.select_one('meta[property="article:published_time"]')['content']
         fomos_post_reach = soup.select_one('div.board_area.common_view > p.sub_tit > span:nth-child(3)').text
         fomos_post_url = "http://www.fomos.kr/"+selected['href']
 
@@ -113,16 +120,19 @@ def fomos(keyword):
 
         community_data = {
             'site': "FOMOS",
+            'program': program,
             'title': fomos_post_name,
             'date': fomos_post_date,
             'reach': fomos_post_reach,
             'url': fomos_post_url,
+            'keyword': keyword,
             'property': True
         }
+        if fomos_post_reach is not None:
+            db.community_data.insert_one(community_data)
 
-        db.community_data.insert_one(community_data)
 
-def pgr(keyword):
+def pgr(program, keyword):
 
     url = "https://pgr21.com/pb/pb.php?id=humor&ss=on&sc=on&keyword=" + keyword
     data = getData(url)
@@ -139,18 +149,20 @@ def pgr(keyword):
 
         community_data = {
             'site': "pgr21",
+            'program': program,
             'title': pgr_post_name,
             'date': pgr_post_date,
             'reach': pgr_post_reach,
             'url': pgr_post_url,
+            'keyword': keyword,
             'property': True
         }
 
-        db.community_data.insert_one(community_data)
-
+        if pgr_post_name is not None:
+            db.community_data.insert_one(community_data)
         idx += 1
 
-def ruliweb(keyword):
+def ruliweb(program, keyword):
     url = "https://bbs.ruliweb.com/community/board/300143?search_type=subject_content&search_key=" + keyword
     data = getData(url)
     select_list = data.select('.board_list_table > tbody > tr')
@@ -168,18 +180,21 @@ def ruliweb(keyword):
 
             community_data = {
                 'site': "루리웹",
+                'program': program,
                 'title': ruliweb_post_name,
                 'date': ruliweb_post_date,
                 'reach': ruliweb_post_reach,
                 'url': ruliweb_post_url,
+                'keyword': keyword,
                 'property': True
             }
 
-            db.community_data.insert_one(community_data)
+            if ruliweb_post_name is not None:
+                db.community_data.insert_one(community_data)
 
         idx += 1
 
-def dogdrip(keyword):
+def dogdrip(program, keyword):
     url = "https://www.dogdrip.net/?_filter=search&act=&vid=&mid=dogdrip&category=&search_target=title_content&search_keyword=" + keyword
     data = getData(url)
     select_list = data.select('td.title > a')
@@ -195,13 +210,16 @@ def dogdrip(keyword):
 
         community_data = {
             'site' : "DogDrip",
+            'program': program,
             'title': dogdrip_post_name,
             'date': dogdrip_post_date,
             'reach': dogdrip_post_reach,
             'url': dogdrip_post_url,
+            'keyword': keyword,
             'property': True
         }
-        db.community_data.insert_one(community_data)
+        if dogdrip_post_name is not None:
+            db.community_data.insert_one(community_data)
 
         idx += 1
 
