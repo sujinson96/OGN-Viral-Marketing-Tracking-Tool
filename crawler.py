@@ -32,7 +32,7 @@ db = client.dbsparta
 
 # @scheduler.task('cron', id='job_1', minute='5') # 매시 5분 마다
 
-# @scheduler.task('cron', id='job_1', hour='1') # 매일 1시
+# @scheduler.task('cron', id='job_1', hour='8') # 매일 8시
 
 def find_keyword():
     result = list(db.programlist.find({}, {'_id' : 0}))
@@ -58,13 +58,15 @@ def dcinside(program, keyword):
 
     for selected in select_list:
         soup = getData(selected['href'])
-        dc_post_name = soup.select_one('.title_subject').text
-        dc_post_date = soup.select_one('.gall_date').text
-        dc_post_reach = soup.select_one('.gall_count').text
-        dc_post_url = selected['href']
+
+        if soup.select_one('title_subject') is not None:
+            dc_post_name = soup.select_one('.title_subject').text
+            dc_post_date = soup.select_one('.gall_date').text
+            dc_post_reach = soup.select_one('.gall_count').text
+            dc_post_url = selected['href']
         # print(dc_post_name, dc_post_date, dc_post_reach, dc_post_url)
 
-        community_data = {
+            community_data = {
             'site': "디씨인사이드",
             'program' : program,
             'title': dc_post_name,
@@ -75,7 +77,7 @@ def dcinside(program, keyword):
             'property': True
         }
 
-        db.community_data.insert_one(community_data)
+            db.community_data.insert_one(community_data)
 
 def fmkorea(program, keyword):
     url = "https://www.fmkorea.com/?act=IS&is_keyword=" + keyword
@@ -84,13 +86,14 @@ def fmkorea(program, keyword):
 
     for selected in select_list:
         soup = getData("https://www.fmkorea.com/"+selected['href'])
-        fmkorea_post_name = soup.select_one('.np_18px_span').text
-        fmkorea_post_date = soup.select_one('.date.m_no').text
-        fmkorea_post_reach = soup.select_one('.side.fr > span:nth-child(1) > b').text
-        fmkorea_post_url = "https://www.fmkorea.com/"+selected['href']
-        # print(fmkorea_post_name, fmkorea_post_date, fmkorea_post_reach, fmkorea_post_url)
+        if soup.select_one('.np_18px_span') is not None:
+            fmkorea_post_name = soup.select_one('.np_18px_span').text
+            fmkorea_post_date = soup.select_one('.date.m_no').text
+            fmkorea_post_reach = soup.select_one('.side.fr > span:nth-child(1) > b').text
+            fmkorea_post_url = "https://www.fmkorea.com/"+selected['href']
+            # print(fmkorea_post_name, fmkorea_post_date, fmkorea_post_reach, fmkorea_post_url)
 
-        community_data = {
+            community_data = {
             'site': "에펨코리아",
             'program': program,
             'title': fmkorea_post_name,
@@ -100,8 +103,6 @@ def fmkorea(program, keyword):
             'keyword': keyword,
             'property': True
         }
-
-        if fmkorea_post_name is not None:
             db.community_data.insert_one(community_data)
 
 def fomos(program, keyword):
@@ -111,14 +112,14 @@ def fomos(program, keyword):
 
     for selected in select_list:
         soup = getData("http://www.fomos.kr/"+selected['href'])
-        fomos_post_name = soup.select_one('meta[property="og:title"]')['content']
-        fomos_post_date = soup.select_one('meta[property="article:published_time"]')['content']
-        fomos_post_reach = soup.select_one('div.board_area.common_view > p.sub_tit > span:nth-child(3)').text
-        fomos_post_url = "http://www.fomos.kr/"+selected['href']
 
-        # print(fomos_post_name, fomos_post_date, fomos_post_reach, fomos_post_url)
+        if soup.select_one('div.board_area.common_view > p.sub_tit > span:nth-child(3)') is not None:
+            fomos_post_name = soup.select_one('meta[property="og:title"]')['content']
+            fomos_post_date = soup.select_one('meta[property="article:published_time"]')['content']
+            fomos_post_reach = soup.select_one('div.board_area.common_view > p.sub_tit > span:nth-child(3)').text
+            fomos_post_url = "http://www.fomos.kr/"+selected['href']
 
-        community_data = {
+            community_data = {
             'site': "FOMOS",
             'program': program,
             'title': fomos_post_name,
@@ -128,7 +129,6 @@ def fomos(program, keyword):
             'keyword': keyword,
             'property': True
         }
-        if fomos_post_reach is not None:
             db.community_data.insert_one(community_data)
 
 
@@ -141,13 +141,14 @@ def pgr(program, keyword):
     idx = 0
     for selected in select_list:
         soup = getData("https://pgr21.com/" + selected['href'])
-        pgr_post_name = soup.select_one('meta[property="og:title"]')['content']
-        pgr_post_date = data.select('td.tddate > span')[idx + 3].text
-        pgr_post_reach = data.select('td.tdhit')[idx +3].text
-        pgr_post_url = soup.select_one('meta[property="og:url"]')['content']
-        # print(pgr_post_name, pgr_post_date, pgr_post_reach, pgr_post_url)
 
-        community_data = {
+        if soup.select_one('meta[property="og:title"]')['content'] is not None:
+            pgr_post_name = soup.select_one('meta[property="og:title"]')['content']
+            pgr_post_date = data.select('td.tddate > span')[idx + 3].text
+            pgr_post_reach = data.select('td.tdhit')[idx +3].text
+            pgr_post_url = soup.select_one('meta[property="og:url"]')['content']
+
+            community_data = {
             'site': "pgr21",
             'program': program,
             'title': pgr_post_name,
@@ -158,7 +159,6 @@ def pgr(program, keyword):
             'property': True
         }
 
-        if pgr_post_name is not None:
             db.community_data.insert_one(community_data)
         idx += 1
 
@@ -172,13 +172,14 @@ def ruliweb(program, keyword):
         if idx > 2:
             link = selected.select_one('.subject a')['href']
             soup = getData(link)
-            ruliweb_post_name = soup.select_one('div.user_view > div:nth-child(1) > h4 > span').text
-            ruliweb_post_date = soup.select_one('meta[property="og:updated_time"]')['content']
-            ruliweb_post_reach = data.select('td.hit > span')[idx-3].text
-            ruliweb_post_url = link
+            if soup.select_one('div.user_view > div:nth-child(1) > h4 > span') is not None:
+                ruliweb_post_name = soup.select_one('div.user_view > div:nth-child(1) > h4 > span').text
+                ruliweb_post_date = soup.select_one('meta[property="og:updated_time"]')['content']
+                ruliweb_post_reach = data.select('td.hit > span')[idx-3].text
+                ruliweb_post_url = link
             # print(ruliweb_post_name, ruliweb_post_date, ruliweb_post_reach, ruliweb_post_url)
 
-            community_data = {
+                community_data = {
                 'site': "루리웹",
                 'program': program,
                 'title': ruliweb_post_name,
@@ -189,7 +190,6 @@ def ruliweb(program, keyword):
                 'property': True
             }
 
-            if ruliweb_post_name is not None:
                 db.community_data.insert_one(community_data)
 
         idx += 1
@@ -202,13 +202,14 @@ def dogdrip(program, keyword):
     idx = 0
     for selected in select_list:
         soup = getData("https://www.dogdrip.net" + selected['href'])
-        dogdrip_post_name = soup.select_one('div.ed.article-head.margin-bottom-large > h4 > a').text
-        dogdrip_post_date = soup.select_one('div.ed.flex.flex-wrap > span:nth-child(2) > span:nth-child(2)').text
-        dogdrip_post_reach = data.select('td.ed.voteNum.text-primary')[idx].text
-        dogdrip_post_url = "https://www.dogdrip.net" + selected['href']
+        if soup.select_one('div.ed.article-head.margin-bottom-large > h4 > a') is not None:
+            dogdrip_post_name = soup.select_one('div.ed.article-head.margin-bottom-large > h4 > a').text
+            dogdrip_post_date = soup.select_one('div.ed.flex.flex-wrap > span:nth-child(2) > span:nth-child(2)').text
+            dogdrip_post_reach = data.select('td.ed.voteNum.text-primary')[idx].text
+            dogdrip_post_url = "https://www.dogdrip.net" + selected['href']
         # print(dogdrip_post_name, dogdrip_post_date, dogdrip_post_reach, dogdrip_post_url)
 
-        community_data = {
+            community_data = {
             'site' : "DogDrip",
             'program': program,
             'title': dogdrip_post_name,
@@ -218,7 +219,6 @@ def dogdrip(program, keyword):
             'keyword': keyword,
             'property': True
         }
-        if dogdrip_post_name is not None:
             db.community_data.insert_one(community_data)
 
         idx += 1

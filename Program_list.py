@@ -64,16 +64,17 @@ def community_viral_menu():
 
 @app.route('/keyword_table', methods=['GET'])
 def keyword_table():
-
-    result = list(db.community_data.find({}, {'_id' : 0}))
+    title_receive = request.args.get('program_title_give')
+    result = list(db.community_data.find({'program': title_receive}, {'_id' : 0}))
     return jsonify({'result':'success', 'community_data': result})
+
 
 @app.route('/delete', methods=['POST'])
 def posttitle():
    # 1. 클라이언트로부터 데이터를 받기
-   posttitle_receive = request.form['posttitle_give']
+   posturl_receive = request.form['posturl_give']
 
-   db.programlist.update_one({'programs': posttitle_receive}, {'$set': {'property' : False}})
+   db.programlist.update_one({'programs': posturl_receive}, {'$set': {'property' : False}})
 
    return jsonify({'result': 'success'})
 

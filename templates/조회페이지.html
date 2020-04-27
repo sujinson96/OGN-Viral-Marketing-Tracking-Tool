@@ -157,16 +157,16 @@
                     <thead>
                         <tr>
                             <th>프로그램명</th>
+                            <th>키워드</th>
                             <th>커뮤니티명</th>
                             <th>날짜</th>
                             <th>제목</th>
                             <th>조회수</th>
-                            <th>키워드</th>
                             <th>삭제하기</th>
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="program-list-body"> 
                         <tr>
                             <td>소울 사이버 대학</td>
                             <td>디씨인사이드</td>
@@ -174,7 +174,7 @@
                             <td><a href="#">제목입니다!!</a></td>
                             <td>33</td>
                             <td>키워드</td>
-                            <td> <button class="btn btn-danger" onclick="deleteProgram(id)">삭제</button> </td>
+                            <td> <button class="btn btn-danger" onclick="deleteProgram()"> 삭제</button> </td>
                         </tr>
                     </tbody>
 
@@ -215,13 +215,13 @@
 
             $.ajax({
                 type: "GET",
-                url: "/keyword_table",
+                url: "/keyword_table?program_title_give=" + programtitle,
                 data: {},
                 success: function (response) {
                     console.log(response);
                     if (response['result'] == 'success') {
                         let community_data = response['community_data'];
-                        $('#program-list').html('');
+                        $('#program-list-body').html('');
                         for (let i = 0; i < community_data.length; i++) {
                             let information = community_data[i];
                             let program = information['program'];
@@ -232,8 +232,7 @@
                             let url = information['url']
                             let keyword = information ['keyword'];
 
-                            if (programtitle = program)
-                                {make_table(site, program, date, url, title, reach, keyword);}
+                            {make_table(site, program, date, url, title, reach, keyword);}
                         }
                     }
                 }
@@ -251,14 +250,14 @@
                             <td> <a href=${url}> ${title}</a> </td>
                             <td>${reach}</td>
                             <td>
-                                <button class="btn btn-danger" onclick="deleteProgram('id')">삭제</button>
+                                <button class="btn btn-danger" onclick="deleteProgram('${url}')">삭제</button>
 
                             </td>
 
                         </tr>`;
 
             
-            $('#program-list').append(table);
+            $('#program-list-body').append(table);
 
 
 
@@ -296,14 +295,14 @@
 
 
 
-        function deleteProgram(id) {
+        function deleteProgram(url) {
 
             function deleteprogram() {
             $.ajax({
                 type: 'POST', // 타입을 작성합니다.
                 url: '/delete', // url을 작성합니다.
                 data: {
-                    posttitle_give: `${title}`
+                    posturl_give: `${url}`
                 }, // data를 작성합니다.
                 success: function (response) {
                     if (response['result'] == 'success') {
